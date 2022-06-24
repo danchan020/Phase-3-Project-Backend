@@ -17,24 +17,24 @@ class ApplicationController < Sinatra::Base
     boardgame.to_json
   end
 
-  get '/boardgames/:id' do
-    boardgame = Boardgame.find(params[:id])
-    boardgame.to_json
-  end
+  # get '/boardgames/:id' do
+  #   boardgame = Boardgame.find(params[:id])
+  #   boardgame.to_json
+  # end
 
-  patch '/boardgames/:id' do
+  patch '/boardgames/' do
     boardgame = Boardgame.find(params[:id])
     boardgame.update(
       supply: params[:supply]
     )
-    boardgame.to_jso
-  end
-
-  delete '/boardgames/:id' do
-    boardgame = Boardgame.find(params[:id])
-    boardgames.destroy
     boardgame.to_json
   end
+
+  # delete '/boardgames/:id' do
+  #   boardgame = Boardgame.find(params[:id])
+  #   boardgames.destroy
+  #   boardgame.to_json
+  # end
 
   get '/reservations' do
     reservation = Reservation.all
