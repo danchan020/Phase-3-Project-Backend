@@ -6,14 +6,25 @@ class ApplicationController < Sinatra::Base
     boardgames.to_json
   end
 
+  # post "/boardgames" do
+  #   boardgame = Boardgame.create(
+  #     title: params[:title],
+  #     image: params[:image],
+  #     rating: params[:rating],
+  #     supply: params[:supply],
+  #     category: params[:category]
+  #   )
+  #   boardgame.to_json
+  # end
+
   post "/boardgames" do
-    boardgame = Boardgame.create(
-      title: params[:title],
+    boardgame = Boardgame.create_with(
       image: params[:image],
       rating: params[:rating],
-      supply: params[:supply],
-      category: params[:category]
-    )
+      category: params[:category],
+      description: params[:description]
+    ).find_or_create_by(title: params[:title])
+    boardgame.update(supply: boardgame.supply +=1) if boardgame.supply >= 1
     boardgame.to_json
   end
 
@@ -22,7 +33,7 @@ class ApplicationController < Sinatra::Base
   #   boardgame.to_json
   # end
 
-  patch '/boardgames/' do
+  patch '/boardgames/:id' do
     boardgame = Boardgame.find(params[:id])
     boardgame.update(
       supply: params[:supply]
@@ -66,4 +77,11 @@ class ApplicationController < Sinatra::Base
     {message: "Reservation cancelled successfully"}.to_json
   end
 
+# private
+
+#   def json_config
+#     options = {methods: [:formatted_time]} 
+#   end
+
 end
+
